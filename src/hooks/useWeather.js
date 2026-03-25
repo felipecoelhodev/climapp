@@ -57,7 +57,7 @@ export function useWeather() {
         },
         (err) => {
           console.error("Erro de geolocalização:", err);
-          setError("Permissão de localização negada.");
+          setError("Negada a permissão de localização. Digite manualmente");
           setLoading(false);
         },
       );
