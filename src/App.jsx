@@ -1,40 +1,33 @@
+import { useWeather } from "./hooks/useWeather";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
+import ForecastList from "./components/Forecast/ForecastList";
+import Loading from "./components/Loading";
 import "./App.css";
-import { useState } from "react";
-import { useEffect } from "react";
-
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 function App() {
-  const [weather, setWeather] = useState(null);
-
-  useEffect(() => {
-    async function fetchWeather() {
-      try {
-        const response = await fetch(
-          `https://api.hgbrasil.com/weather?format=json-cors&key=${API_KEY}&city_name=Barbalha, CE`,
-        );
-        const data = await response.json();
-        if (data.results) {
-          setWeather(data.results);
-        }
-      } catch (erro) {
-        console.error("Erro ao buscar dados da API", erro);
-      }
-    }
-
-    fetchWeather();
-  }, []);
+  const { weather, loading, error, fetchByCity } = useWeather();
 
   return (
     <div className="app-container">
-      <SearchBar />
-      {weather && (
+      <SearchBar onSearch={fetchByCity} />
+      {loading ? (
+        <Loading />
+      ) : weather ? (
         <>
-          <h1>{weather.city}</h1>
+          <h1>
+            {weather.city}{" "}
+            <span>
+              Nascer do Sol: {weather.sunrise} | Pôr do Sol: {weather.sunset}
+            </span>
+          </h1>
           <WeatherCard weather={weather} />
+          <ForecastList forecasts={weather.forecast.slice(1, 4)} />
         </>
+      ) : (
+        <p className="error-message">
+          {error || "Digite uma cidade para buscar o clima."}
+        </p>
       )}
     </div>
   );

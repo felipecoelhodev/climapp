@@ -1,0 +1,26 @@
+.forecast-list {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  width: 328px;
+  margin-top: 16px;
+}
+
+.forecast-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 16px;
+  text-align: center;
+  flex: 1;
+}
+
+.forecast-day {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.forecast-temp {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
